@@ -3,14 +3,14 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "qwbot"
+name = "qwmind"
 version = "0.2.0"
 description = "External QuakeWorld bot controller with optional telemetry and navigation learning"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-qwbot = "qwbot.cli:main"
+qwmind = "qwbot.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
