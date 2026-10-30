@@ -1,4 +1,12 @@
-"""Linux FIFO ezQuake console command transport. No telemetry is provided by FIFO."""
+"""
+:File:        src/qwbot/transport.py
+
+:Details:     FIFO and in-memory transports for ezQuake console commands.
+
+:Date:        30-10-2026
+:Author:      Mick K.
+"""
+
 import os
 import stat
 import time
@@ -20,14 +28,18 @@ class FIFOTransport:
             except (FileNotFoundError, OSError) as exc:
                 if time.monotonic() >= deadline:
                     raise RuntimeError(f"Cannot open {self.path}: {exc}") from exc
-                time.sleep(.1)
+                time.sleep(0.1)
 
     def send(self, command: str):
         if self.fd is None:
             raise RuntimeError("Transport not open")
-        if not command or any(c in command for c in '\r\n\x00') or not command.isascii():
+        if (
+            not command
+            or any(c in command for c in "\r\n\x00")
+            or not command.isascii()
+        ):
             raise ValueError("Invalid console command")
-        payload = (command + '\n').encode('ascii')
+        payload = (command + "\n").encode("ascii")
         if os.write(self.fd, payload) != len(payload):
             raise OSError("Partial FIFO write")
 
@@ -39,6 +51,7 @@ class FIFOTransport:
 
 class MemoryTransport:
     """Deterministic test transport; does not connect to a game."""
+
     def __init__(self):
         self.commands = []
 

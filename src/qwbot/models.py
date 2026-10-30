@@ -1,3 +1,12 @@
+"""
+:File:        src/qwbot/models.py
+
+:Details:     Shared immutable position, snapshot, and action data models.
+
+:Date:        30-10-2026
+:Author:      Mick K.
+"""
+
 from dataclasses import dataclass
 from math import dist
 
